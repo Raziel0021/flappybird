@@ -53,8 +53,7 @@ namespace flappybird {
 			Vector2 mousePoint = GetMousePosition();
 
 			buttons::isMouseOverButton(retry);
-			if (CheckCollisionPointRec(mousePoint, retry.size))
-			{
+			if (CheckCollisionPointRec(mousePoint, retry.size)){
 				if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 					actualScene = Game;
 					gameplay::pause = false;
@@ -63,8 +62,7 @@ namespace flappybird {
 				}
 			}
 			buttons::isMouseOverButton(menu);
-			if (CheckCollisionPointRec(mousePoint, menu.size))
-			{
+			if (CheckCollisionPointRec(mousePoint, menu.size)){
 				if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 					gameplay::init();
 					gameplay::pause = false;
@@ -73,8 +71,7 @@ namespace flappybird {
 				}
 			}
 			buttons::isMouseOverButton(quit);
-			if (CheckCollisionPointRec(mousePoint, quit.size))
-			{
+			if (CheckCollisionPointRec(mousePoint, quit.size)){
 				if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 					isGameOver = true;
 				}

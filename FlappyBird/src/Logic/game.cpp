@@ -14,8 +14,8 @@ namespace flappybird {
 
 		// Initialization
 		//--------------------------------------------------------------------------------------
-		int screenWidth = 1280;
-		int screenHeight = 720;
+		 int screenWidth = 1280;
+		 int screenHeight = 720;
 
 		Music bgMusic;
 
@@ -27,8 +27,7 @@ namespace flappybird {
 			init();
 
 			// Main game loop
-			while (!WindowShouldClose() && !isGameOver)
-			{
+			while (!WindowShouldClose() && !isGameOver){
 				update();
 				draw();
 			}
@@ -39,9 +38,8 @@ namespace flappybird {
 			//Initialization of all the game!
 			SetConfigFlags(FLAG_MSAA_4X_HINT);      // Enable Multi Sampling Anti Aliasing 4x (if available)
 			InitWindow(screenWidth, screenHeight, "FlappyBird | by Ivan Castellano");
-			
+			//#define AUDIO
 			#ifdef AUDIO
-			#define AUDIO
 			InitAudioDevice();
 			bgMusic = LoadMusicStream("res/assets/Music/bgmusic.ogg");
 			#endif // !AUDIO
@@ -50,9 +48,9 @@ namespace flappybird {
 			gameplay::init();
 			gameOver::init();
 			credits::init();
-
+			//#define AUDIO
 			#ifdef AUDIO
-			#define AUDIO
+			
 				PlayMusicStream(bgMusic);
 				SetMusicVolume(bgMusic, 0.5f);
 			#endif // !AUDIO
@@ -62,8 +60,8 @@ namespace flappybird {
 		void update() {
 			// Update
 			//----------------------------------------------------------------------------------
+			//#define AUDIO			
 			#ifdef AUDIO
-			#define AUDIO
 			UpdateMusicStream(bgMusic);
 			#endif // AUDIO
 			
@@ -116,7 +114,7 @@ namespace flappybird {
 			// De-Initialization
 			//--------------------------------------------------------------------------------------
 			#ifdef AUDIO
-			#define AUDIO
+			//#define AUDIO
 				UnloadMusicStream(bgMusic);
 				CloseAudioDevice();
 			#endif // !AUDIO
