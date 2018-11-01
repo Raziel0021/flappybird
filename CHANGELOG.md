@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1] - 2018-11-1
+### Added
+- Added 2 players feature
+- Added assets
+
+### Changed
+- Update CHANGELOG
+- Modified Pause
+
 ## [1.0] - 2018-10-29
 ### Added
 - Added Raws files
