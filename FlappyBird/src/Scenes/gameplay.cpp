@@ -40,32 +40,61 @@ namespace flappybird {
 
 		void update(bool &isGameOver) {
 
-			if (!isGameOver){
+			if (!isGameOver) {
 
 				mousePoint = GetMousePosition();
-				if (pause == false && players::isDead == false && tutorial == false) {
-					buttons::isMouseOverButton(pause_btn);
-					if (CheckCollisionPointRec(mousePoint, pause_btn.size))
-					{
-						if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-							pause = !pause;
+				if (!players::twoPlayers) {
+					if (pause == false && players::isDead == false && tutorial == false) {
+						buttons::isMouseOverButton(pause_btn);
+						if (CheckCollisionPointRec(mousePoint, pause_btn.size))
+						{
+							if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+								pause = !pause;
+							}
 						}
 					}
+					if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+						tutorial = false;
+					}
+
+					if (!pause && tutorial == false) {
+						animations::update();
+						players::update();
+						columns_enemys::update();
+					}
+					else if (players::isDead == false && tutorial == false) {
+						pause_menu::update(isGameOver);
+					}
+					if (players::isDead) {
+						gameOver::update(isGameOver);
+					}
 				}
-				if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-					tutorial = false;
-				}
-		
-				if (!pause && tutorial == false){
-					animations::update();
-					players::update();
-					columns_enemys::update();
-				}
-				else if(players::isDead == false && tutorial == false) {
-					pause_menu::update(isGameOver);
-				}
-				if (players::isDead) {
-					gameOver::update(isGameOver);
+				else 
+				{
+					if (pause == false && (players::isDead == false || players::isDead2 == false) && tutorial == false) {
+						buttons::isMouseOverButton(pause_btn);
+						if (CheckCollisionPointRec(mousePoint, pause_btn.size))
+						{
+							if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+								pause = !pause;
+							}
+						}
+					}
+					if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+						tutorial = false;
+					}
+
+					if (!pause && tutorial == false) {
+						animations::update();
+						players::update();
+						columns_enemys::update();
+					}
+					else if ((players::isDead == false || players::isDead2 == false) && tutorial == false) {
+						pause_menu::update(isGameOver);
+					}
+					if (players::isDead&&players::isDead2) {
+						gameOver::update(isGameOver);
+					}
 				}
 			}
 		}
@@ -79,20 +108,40 @@ namespace flappybird {
 				columns_enemys::draw();
 				players::draw();
 				animations::draw();
-
-				DrawText(FormatText("SCORE: %02i", players::player.score), 
-					     GetScreenWidth() / 2 - MeasureText("SCORE: 00", 40) / 2, 50, 40, WHITE);
-
-				if (pause == false && players::isDead == false) {
-					buttons::draw(pause_btn);
+				if (!players::twoPlayers) {
+					DrawText(FormatText("SCORE: %02i", players::player.score),
+						GetScreenWidth() / 2 - MeasureText("SCORE: 00", 40) / 2, 50, 40, WHITE);
 				}
-
-				if (pause && players::isDead == false) {
-					pause_menu::draw();
+				if (players::twoPlayers) {
+					DrawText(FormatText("SCORE P1 %02i", players::player.score),
+						GetScreenWidth() / 2 - (MeasureText("SCORE P1 00", 40) + MeasureText("P2 00", 40)) / 2, 50, 40, WHITE);
+					DrawText(FormatText("P2 %02i", players::player2.score),
+						GetScreenWidth() / 2 + MeasureText("P2 00", 40), 50, 40, WHITE);
 				}
+				if (!players::twoPlayers) {
+					if (pause == false && players::isDead == false) {
+						buttons::draw(pause_btn);
+					}
 
-				if (players::isDead) {
-					gameOver::draw();
+					if (pause && players::isDead == false) {
+						pause_menu::draw();
+					}
+					if (players::isDead) {
+						gameOver::draw();
+					}
+				}
+				else
+				{
+					if (pause == false && (players::isDead == false || players::isDead2 == false)) {
+						buttons::draw(pause_btn);
+					}
+
+					if (pause && (players::isDead == false || players::isDead2 == false)) {
+						pause_menu::draw();
+					}
+					if (players::isDead &&players::isDead2) {
+						gameOver::draw();
+					}
 				}
 			}
 			BeginBlendMode(BLEND_MULTIPLIED);

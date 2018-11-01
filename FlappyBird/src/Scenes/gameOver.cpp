@@ -3,7 +3,7 @@
 #include "gameplay.h"
 #include "Logic/game.h"
 #include "Utility/buttons.h"
-
+#include "Characters/Player/player.h"
 namespace flappybird {
 	namespace gameOver {
 		using namespace game;
@@ -67,6 +67,7 @@ namespace flappybird {
 					gameplay::init();
 					gameplay::pause = false;
 					gameplay::tutorial = true;
+					players::twoPlayers = false;
 					actualScene = Menu;
 				}
 			}

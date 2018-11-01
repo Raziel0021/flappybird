@@ -34,10 +34,19 @@ namespace flappybird {
 
 		void update() {
 			timer += GetFrameTime();
-			if (!players::isDead) {
-				gameplay_bg.pos.x -= gameplay_bg.speed * GetFrameTime();
-				gameplay_ground.pos.x -= gameplay_ground.speed * GetFrameTime();
-			}		
+			if (!players::twoPlayers) {
+				if (!players::isDead) {
+					gameplay_bg.pos.x -= gameplay_bg.speed * GetFrameTime();
+					gameplay_ground.pos.x -= gameplay_ground.speed * GetFrameTime();
+				}
+			}
+			else
+			{
+				if (!players::isDead ||!players::isDead2) {
+					gameplay_bg.pos.x -= gameplay_bg.speed * GetFrameTime();
+					gameplay_ground.pos.x -= gameplay_ground.speed * GetFrameTime();
+				}
+			}
 		}
 
 		void draw() {

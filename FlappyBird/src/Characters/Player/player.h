@@ -27,7 +27,8 @@ namespace flappybird {
 		extern Player player2;
 		extern const float PLAYER_SPEED;
 		extern bool isDead;
-
+		extern bool isDead2;
+		extern bool twoPlayers;
 		void init();
 		void update();
 		void draw();

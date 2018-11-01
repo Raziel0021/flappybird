@@ -2,7 +2,7 @@
 
 #include "Logic/game.h"
 #include "Utility/buttons.h"
-
+#include "Characters/Player/player.h"
 namespace flappybird {
 	namespace menu {
 		using namespace game;
@@ -14,19 +14,22 @@ namespace flappybird {
 		Vector2 title_position;
 
 		buttons::BTNTEX play;
+		buttons::BTNTEX play2;
 		buttons::BTNTEX credits;
 		buttons::BTNTEX quit;
 
 		void init() {
 			menu_bg = LoadTexture("res/assets/Textures/GAMEPLAY_BG.png");
 			menu_title = LoadTexture("res/assets/Textures/TITLE_MENU.png");
-
+			players::twoPlayers = false;
 			title_position = { (float)GetScreenWidth() / 2 - menu_title.width / 2,50 };
 
 			play.btn_texture = LoadTexture("res/assets/Textures/PLAY_BTN.png");
+			play2.btn_texture = LoadTexture("res/assets/Textures/2PLAYERS_BTN.png");
 			credits.btn_texture = LoadTexture("res/assets/Textures/CREDITS_BTN.png");
 			quit.btn_texture = LoadTexture("res/assets/Textures/QUIT_BTN.png");
 			play.btnOnHover_texture = LoadTexture("res/assets/Textures/PLAYONHOVER_BTN.png");
+			play2.btnOnHover_texture = LoadTexture("res/assets/Textures/2PLAYERSHOVER_BTN.png");
 			credits.btnOnHover_texture = LoadTexture("res/assets/Textures/CREDITSONHOVER_BTN.png");
 			quit.btnOnHover_texture = LoadTexture("res/assets/Textures/QUITONHOVER_BTN.png");
 
@@ -34,13 +37,17 @@ namespace flappybird {
 								 (float)(GetScreenWidth() / 2 - play.btn_texture.width / 2), 
 				                 (float)(GetScreenHeight() - 400), WHITE);
 
+			buttons::createButton(play2, play2.btn_texture.height, play2.btn_texture.width,
+				(float)(GetScreenWidth() / 2 - play2.btn_texture.width / 2),
+				(float)(GetScreenHeight() - 330), WHITE);
+
 			buttons::createButton(credits, credits.btn_texture.height, credits.btn_texture.width, 
 								 (float)(GetScreenWidth() / 2 - credits.btn_texture.width / 2), 
-								 (float)(GetScreenHeight() - 330), WHITE);
+								 (float)(GetScreenHeight() - 260), WHITE);
 
 			buttons::createButton(quit, quit.btn_texture.height, quit.btn_texture.width, 
 								 (float)(GetScreenWidth() / 2 - quit.btn_texture.width / 2), 
-								 (float)(GetScreenHeight() - 260), WHITE);
+								 (float)(GetScreenHeight() - 190), WHITE);
 
 		}
 
@@ -54,6 +61,16 @@ namespace flappybird {
 					actualScene = Game;
 				}
 			}
+
+			buttons::isMouseOverButton(play2);
+			if (CheckCollisionPointRec(mousePoint, play2.size))
+			{
+				if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+					actualScene = Game;
+					players::twoPlayers = true;
+				}
+			}
+
 			buttons::isMouseOverButton(credits);
 			if (CheckCollisionPointRec(mousePoint, credits.size))
 			{
@@ -80,6 +97,7 @@ namespace flappybird {
 
 			//Draw buttons
 			buttons::draw(play);
+			buttons::draw(play2);
 			buttons::draw(credits);
 			buttons::draw(quit);
 			DrawText("v1.0", screenWidth - 50, screenHeight - 20, 20, WHITE);
@@ -91,9 +109,11 @@ namespace flappybird {
 			UnloadTexture(menu_title);
 			//buttons
 			UnloadTexture(play.btn_texture);
+			UnloadTexture(play2.btn_texture);
 			UnloadTexture(credits.btn_texture);
 			UnloadTexture(quit.btn_texture);
 			UnloadTexture(play.btnOnHover_texture);
+			UnloadTexture(play2.btnOnHover_texture);
 			UnloadTexture(credits.btnOnHover_texture);
 			UnloadTexture(quit.btnOnHover_texture);	
 		}

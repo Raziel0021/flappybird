@@ -55,50 +55,114 @@ namespace flappybird {
 		}
 
 		void update() {
-			if (!isDead) {
-				for (int i = 0; i < totalCols; i++) {
-					//Movement
-					random = GetRandomValue(MIN_RAND, MAX_RAND);
+			if (!twoPlayers) {
+				if (!isDead) {
+					for (int i = 0; i < totalCols; i++) {
+						//Movement
+						random = GetRandomValue(MIN_RAND, MAX_RAND);
 
-					columnsUp[i].position.x -= COL_SPEED * GetFrameTime();
-					columnsDown[i].position.x -= COL_SPEED * GetFrameTime();
+						columnsUp[i].position.x -= COL_SPEED * GetFrameTime();
+						columnsDown[i].position.x -= COL_SPEED * GetFrameTime();
 
-					columnsUp[i].collider.x = (int)columnsUp[i].position.x;
-					columnsUp[i].collider.y = (int)columnsUp[i].position.y;
+						columnsUp[i].collider.x = (int)columnsUp[i].position.x;
+						columnsUp[i].collider.y = (int)columnsUp[i].position.y;
 
-					columnsDown[i].collider.x = (int)columnsDown[i].position.x;
-					columnsDown[i].collider.y = (int)columnsDown[i].position.y;
+						columnsDown[i].collider.x = (int)columnsDown[i].position.x;
+						columnsDown[i].collider.y = (int)columnsDown[i].position.y;
 
-					//Collision
-					if (CheckCollisionCircleRec(player.position,player.radius, columnsUp[i].collider)) {
-						isDead = true;
-					}
+						//Collision
+						if (CheckCollisionCircleRec(player.position, player.radius, columnsUp[i].collider)) {
+							isDead = true;
+						}
 
-					if (CheckCollisionCircleRec(player.position, player.radius, columnsDown[i].collider)) {
-						isDead = true;
-					}
+						if (CheckCollisionCircleRec(player.position, player.radius, columnsDown[i].collider)) {
+							isDead = true;
+						}
 
-					if (columnsUp[i].position.x + columnsUp[i].texture.width < player.position.x && 
-						!isDead && columnsUp[i].check == false) {
-						columnsUp[i].check = true;
-						player.score++;
-					}
+						if (columnsUp[i].position.x + columnsUp[i].texture.width < player.position.x &&
+							!isDead && columnsUp[i].check == false) {
+							columnsUp[i].check = true;
+							player.score++;
+						}
 
-					//Recicle
-					if (columnsUp[i].position.x + columnsUp[i].texture.width <= 0) {
-						// recicle up
-						columnsUp[i].position.y = 0 - random;
-						columnsUp[i].position.x = GetScreenWidth() + COL_GAP * 3;
-						columnsUp[i].check = false;
+						//Recicle
+						if (columnsUp[i].position.x + columnsUp[i].texture.width <= 0) {
+							// recicle up
+							columnsUp[i].position.y = 0 - random;
+							columnsUp[i].position.x = GetScreenWidth() + COL_GAP * 3;
+							columnsUp[i].check = false;
 
-						// recicle down
-						columnsDown[i].position.y = columnsUp[i].position.y + columnsUp[i].texture.height + BIRD_GAP;
-						columnsDown[i].position.x = GetScreenWidth() + COL_GAP * 3;
-						columnsDown[i].check = false;
+							// recicle down
+							columnsDown[i].position.y = columnsUp[i].position.y + columnsUp[i].texture.height + BIRD_GAP;
+							columnsDown[i].position.x = GetScreenWidth() + COL_GAP * 3;
+							columnsDown[i].check = false;
+						}
 					}
 				}
 			}
-			
+			else {
+				if (!isDead || !isDead2) {
+					for (int i = 0; i < totalCols; i++) {
+						//Movement
+						random = GetRandomValue(MIN_RAND, MAX_RAND);
+
+						columnsUp[i].position.x -= COL_SPEED * GetFrameTime();
+						columnsDown[i].position.x -= COL_SPEED * GetFrameTime();
+
+						columnsUp[i].collider.x = (int)columnsUp[i].position.x;
+						columnsUp[i].collider.y = (int)columnsUp[i].position.y;
+
+						columnsDown[i].collider.x = (int)columnsDown[i].position.x;
+						columnsDown[i].collider.y = (int)columnsDown[i].position.y;
+
+						//Collision Player1
+						if (CheckCollisionCircleRec(player.position, player.radius, columnsUp[i].collider)) {
+							isDead = true;
+							
+						}
+
+						if (CheckCollisionCircleRec(player.position, player.radius, columnsDown[i].collider)) {
+							isDead = true;
+							
+						}
+						//Score Player1
+						if (columnsUp[i].position.x + columnsUp[i].texture.width < player.position.x &&
+							!isDead && columnsUp[i].check == false) {
+							columnsUp[i].check = true;
+							player.score++;
+						}
+
+						//Collision Player2
+						if (CheckCollisionCircleRec(player2.position, player2.radius, columnsUp[i].collider)) {
+							isDead2 = true;
+							
+						}
+
+						if (CheckCollisionCircleRec(player2.position, player2.radius, columnsDown[i].collider)) {
+							isDead2 = true;
+						}
+						//Score Player2
+						if (columnsUp[i].position.x + columnsUp[i].texture.width < player2.position.x &&
+							!isDead2 && columnsUp[i].check == false) {
+							columnsUp[i].check = true;
+							player2.score++;
+						}
+
+						//Recicle
+						if (columnsUp[i].position.x + columnsUp[i].texture.width <= 0) {
+							// recicle up
+							columnsUp[i].position.y = 0 - random;
+							columnsUp[i].position.x = GetScreenWidth() + COL_GAP * 3;
+							columnsUp[i].check = false;
+
+							// recicle down
+							columnsDown[i].position.y = columnsUp[i].position.y + columnsUp[i].texture.height + BIRD_GAP;
+							columnsDown[i].position.x = GetScreenWidth() + COL_GAP * 3;
+							columnsDown[i].check = false;
+						}
+					}
+				}
+			}
 		}
 
 		void draw() {
